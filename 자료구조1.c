@@ -5,61 +5,59 @@
 #define MAX_TERMS 101
 #define MAX_VARIABLES 2
 
-// ÀÏ´Ü ¿¹Á¦¿¡ ÀÖ´Â °Í¸¸ Á¦´ë·Î ÇØº¸ÀÚ !
+// ì¼ë‹¨ ì˜ˆì œì— ìˆëŠ” ê²ƒë§Œ ì œëŒ€ë¡œ í•´ë³´ì !
 
-// ´ÙÇ×½Ä Ç×
+// ë‹¤í•­ì‹ í•­
 struct Term {
-    float coef; // Ç×ÀÇ °è¼ö
-    char* variable; // Ç×ÀÇ º¯¼ö
-    int expon; // Ç×ÀÇ Áö¼ö
+    float coef; // í•­ì˜ ê³„ìˆ˜
+    char* variable; // í•­ì˜ ë³€ìˆ˜
+    int expon; // í•­ì˜ ì§€ìˆ˜
 };
 
-// ´ÙÇ×½Ä Ç¥Çö
+// ë‹¤í•­ì‹ í‘œí˜„
 struct Polynomial {
-    struct Term terms[MAX_TERMS]; // Ç× Ç¥Çö
-    int num_terms; // Ç×ÀÇ °³¼ö
+    struct Term terms[MAX_TERMS]; // í•­ í‘œí˜„
+    int num_terms; // í•­ì˜ ê°œìˆ˜
 };
 
-// ´ÙÇ×½Ä ÀÔ·Â
+// ë‹¤í•­ì‹ ì…ë ¥
 struct Polynomial inputPolynomial() {
     struct Polynomial poly;
-    printf("´ÙÇ×½ÄÀÇ Ç×ÀÇ °³¼ö¸¦ ÀÔ·ÂÇÏ¼¼¿ä: ");
-    scanf_s(" %d", &poly.num_terms);
-
-    // º¯¼ö´Â µ¿Àû ÇÒ´ç
+    printf("ë‹¤í•­ì‹ì˜ í•­ì˜ ê°œìˆ˜ë¥¼ ì…ë ¥í•˜ì„¸ìš”: ");
+    scanf_s("%d", &poly.num_terms);
+    
+    // ë³€ìˆ˜ëŠ” ë™ì  í• ë‹¹
     for (int i = 0; i < poly.num_terms; ++i) {
         poly.terms[i].variable = malloc(2 * sizeof(char));
-        if (poly.terms[i].variable == NULL) 
-            printf("µ¿Àû ÇÒ´ç ¿À·ù !!!!");
+        if (poly.terms[i].variable == NULL) {
+            printf("ë™ì  í• ë‹¹ ì˜¤ë¥˜ !!!!");
             exit(1);
         }
     }
 
     for (int i = 0; i < poly.num_terms; ++i) {
-        printf("´ÙÇ×½ÄÀÇ %d¹øÂ° Ç×ÀÇ °è¼ö¸¦ ÀÔ·ÂÇÏ¼¼¿ä: ", i + 1);
+        printf("ë‹¤í•­ì‹ì˜ %dë²ˆì§¸ í•­ì˜ ê³„ìˆ˜ë¥¼ ì…ë ¥í•˜ì„¸ìš”: ", i + 1);
         scanf_s("%f", &poly.terms[i].coef);
 
-        printf("´ÙÇ×½ÄÀÇ %d¹øÂ° Ç×ÀÇ º¯¼ö¸¦ ÀÔ·ÂÇÏ¼¼¿ä: ", i + 1);
+        printf("ë‹¤í•­ì‹ì˜ %dë²ˆì§¸ í•­ì˜ ë³€ìˆ˜ë¥¼ ì…ë ¥í•˜ì„¸ìš”: ", i + 1);
         scanf_s(" %c", &poly.terms[i].variable);
 
-        printf("´ÙÇ×½ÄÀÇ %d¹øÂ° Ç×ÀÇ Áö¼ö¸¦ ÀÔ·ÂÇÏ¼¼¿ä: ", i + 1);
+        printf("ë‹¤í•­ì‹ì˜ %dë²ˆì§¸ í•­ì˜ ì§€ìˆ˜ë¥¼ ì…ë ¥í•˜ì„¸ìš”: ", i + 1);
         scanf_s("%d", &poly.terms[i].expon);
     }
     return poly;
 }
 
-
-
-// ´ÙÇ×½Ä Á¤º¸ º¸±â
+// ë‹¤í•­ì‹ ì •ë³´ ë³´ê¸°
 void printEach_polynomial(struct Polynomial poly) {
     int i = 0;
     for (i = 0; i < poly.num_terms - 1; ++i) {
-        if (poly.terms[i].coef > 0 && i != 0) { // Ã¹¹øÂ° Ç×ÀÌ +ºÎÈ£ÀÌ¸é, ¾Èº¸ÀÌ°Ô²û
+        if (poly.terms[i].coef > 0 && i != 0) { // ì²«ë²ˆì§¸ í•­ì´ +ë¶€í˜¸ì´ë©´, ì•ˆë³´ì´ê²Œë”
             printf("+");
         }
         printf("%.2f%c^%d", poly.terms[i].coef, poly.terms[i].variable, poly.terms[i].expon);
     }
-    // »ó¼öÇ× Ãâ·Â
+    // ìƒìˆ˜í•­ ì¶œë ¥
     if (poly.terms[i].expon == 0) {
         if (poly.terms[i].coef > 0) {
             printf("+");
@@ -69,41 +67,58 @@ void printEach_polynomial(struct Polynomial poly) {
     printf("\n");
 }
 
+// ë‹¤í•­ì‹ ê³±ì…ˆ
+// ì¼ë‹¨ ê°™ì€ ë³€ìˆ˜ë§Œ ì¡°í•©í•´ì„œ í•´ë³´ì
+struct Polynomial multiplyPolynomial(struct Polynomial A, struct Polynomial B) {
+    struct Polynomial result;
+    result.num_terms = 0;
+
+    for (int i = 0; i < A.num_terms; ++i) {
+        for (int j = 0; j < B.num_terms; ++j) {
+            if (strcmp(A.terms[i].variable, B.terms[j].variable) == 0) {
+                result.terms[result.num_terms].coef = A.terms[i].coef * B.terms[j].coef;
+
+                result.terms[result.num_terms].variable = malloc(2 * sizeof(char));
+                strcpy(result.terms[result.num_terms].variable, A.terms[i].variable);
+                result.terms[result.num_terms++].expon = A.terms[i].expon + B.terms[j].expon;
+            }
+        }
+    }
+    return result;
+}
 int main() {
 
     // =====================================================
     struct Polynomial A;
 
-    // A ´ÙÇ×½Ä ÀÔ·Â
-    printf("== A ´ÙÇ×½Ä Á¤º¸ ÀÔ·Â ==\n");
+    // A ë‹¤í•­ì‹ ì…ë ¥
+    printf("== A ë‹¤í•­ì‹ ì •ë³´ ì…ë ¥ ==\n");
     A = inputPolynomial();
 
-    // A ´ÙÇ×½Ä ³»¸²Â÷¼ø 
-
-
-
-    // A ´ÙÇ×½Ä Á¤º¸ º¸±â
-    printf("AÀÇ ´ÙÇ×½Ä Á¤º¸ : ");
+    // A ë‹¤í•­ì‹ ì •ë³´ ë³´ê¸°
+    printf("Aì˜ ë‹¤í•­ì‹ ì •ë³´ : ");
     printEach_polynomial(A);
     // =====================================================
 
 
 
     // =====================================================
-    // ´ÙÇ×½Ä B ÃÊ±âÈ­
+    // ë‹¤í•­ì‹ B ì´ˆê¸°í™”
     struct Polynomial B;
-    printf("\n== B ´ÙÇ×½Ä Á¤º¸ ÀÔ·Â ==\n");
+    printf("\n== B ë‹¤í•­ì‹ ì •ë³´ ì…ë ¥ ==\n");
     B = inputPolynomial();
-    printf("BÀÇ ´ÙÇ×½Ä Á¤º¸ : ");
+    
+    // Bë‹¤í•­ì‹ ì •ë³´ ë³´ê¸° 
+    printf("Bì˜ ë‹¤í•­ì‹ ì •ë³´ : ");
     printEach_polynomial(B);
     // =====================================================
     printf("\n");
 
     // =====================================================
-    // ´ÙÇ× A, B °ö¼À
+    // ë‹¤í•­ A, B ê³±ì…ˆ
     struct Polynomial multiply_A_B;
-    //multiply_A_B = multiplyPolynomial(A, B);
-    //printEach_polynomial(multiply_A_B);
+    multiply_A_B = multiplyPolynomial(A, B);
+    printEach_polynomial(multiply_A_B);
 
     // =====================================================
 
