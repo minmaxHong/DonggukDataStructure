@@ -49,9 +49,6 @@ void printEach_polynomial(struct Polynomial poly) {
                 // 변수가 없는 경우
                 printf(" %.2f", poly.terms[i].coef);
 
-                if (poly.terms[i].variable[0] == 0) {
-                    ;
-                }
                 if (poly.terms[i].variable[1] != 0) {
                     printf("%c^%d", poly.terms[i].variable[1], poly.terms[i].expon[1]);
                 }
@@ -66,6 +63,7 @@ void printEach_polynomial(struct Polynomial poly) {
     }
     printf("\n");
 }
+
 // 다항식 곱셈
 struct Polynomial mat(struct Polynomial A, struct Polynomial B) {
     struct Polynomial result;
@@ -92,11 +90,10 @@ struct Polynomial mat(struct Polynomial A, struct Polynomial B) {
                 result.num_terms++;
             }
         }
-
-        
     }
     return result;
 }
+
 // yx -> xy로 돌리기
 struct Polynomial yx2xy(struct Polynomial A) {
     // 일단 yx인지 알아보기
@@ -115,15 +112,118 @@ struct Polynomial yx2xy(struct Polynomial A) {
                 char temp = A.terms[i].variable[0];
                 A.terms[i].variable[0] = A.terms[i].variable[1];
                 A.terms[i].variable[1] = temp;
+
+                int temp2 = A.terms[i].expon[0];
+                A.terms[i].expon[0] = A.terms[i].expon[1];
+                A.terms[i].expon[1] = temp2;
             }
         }
         exist_variable_cnt = 0;
     }
+
+    // variable[0]이 비어있고 variable[1]이 있다면 variable[0]값에 variable[1]값을 매워주기 ex) "\0""x"
+    // expon도 마찬가지
+    char temp;
+    int temp2;
+    for (int i = 0; i < A.num_terms; ++i) {
+        if (A.terms[i].variable[0] == '\0' && A.terms[i].variable[1] != '\0') {
+            temp = A.terms[i].variable[1];
+            A.terms[i].variable[1] = A.terms[i].variable[0];
+            A.terms[i].variable[0] = temp;
+
+            temp2 = A.terms[i].expon[1];
+            A.terms[i].expon[1] = A.terms[i].expon[0];
+            A.terms[i].expon[0] = temp2;
+        }
+    }
     return A;
 }
 
-int main() {
+int compare(const void* a, const void* b) {
+    const struct Term* term1 = (const struct Term*)a;
+    const struct Term* term2 = (const struct Term*)b;
 
+    // 변수가 'x'인 항이 먼저 나오도록 정렬
+    if (term1->variable[0] == 'x' && term2->variable[0] == 'x') {
+    // x의 차수가 같을 때
+    if (term1->expon[0] == term2->expon[0]) {
+        // xy가 있는 경우
+        if (term1->variable[1] == 'y' && term2->variable[1] != 'y') {
+            return -1; // xy가 x보다 우선순위를 가져야 함
+        }
+        else if (term1->variable[1] != 'y' && term2->variable[1] == 'y') {
+            return 1; // x가 xy보다 우선순위를 가져야 함
+        }
+    }
+}
+
+    else if (term1->variable[0] != 'x' && term2->variable[0] == 'x') {
+        return 1;
+    }
+
+    // 변수가 'y'인 항이 먼저 나오도록 정렬
+    if (term1->variable[0] == 'x' && term2->variable[0] != 'x') {
+        return -1;
+    }
+    else if (term1->variable[0] != 'y' && term2->variable[0] == 'y') {
+        return 1;
+    }
+
+    // 'x' 또는 'y'가 같은 경우
+    if (term1->variable[0] == term2->variable[0]) {
+        // xy가 먼저 나오도록 정렬
+        if (term1->variable[1] == 'y' && term2->variable[1] == '\0') {
+            return 1;
+        }
+        else if (term1->variable[1] == '\0' && term2->variable[1] == 'y') {
+            return -1;
+        }
+
+        // x의 차수가 높은 것이 먼저 나오도록 정렬
+        if (term1->expon[0] != term2->expon[0]) {
+            return term2->expon[0] - term1->expon[0];
+        }
+
+        // y의 차수가 높은 것이 먼저 나오도록 정렬
+        if (term1->variable[1] == 'y' && term2->variable[1] == 'y') {
+            return term2->expon[1] - term1->expon[1];
+        }
+    }
+
+    return 0;
+}
+// 변수끼리의 차수가 같은 항을 서로 계산하여 결과를 얻는 함수
+struct Polynomial simplify(struct Polynomial result) {
+    for (int i = 0; i < result.num_terms; ++i) {
+        for (int j = i + 1; j < result.num_terms; ++j) {
+            // 변수와 지수가 같은 항을 찾음
+            if (result.terms[i].variable[0] == result.terms[j].variable[0] &&
+                result.terms[i].variable[1] == result.terms[j].variable[1] &&
+                result.terms[i].expon[0] == result.terms[j].expon[0] &&
+                result.terms[i].expon[1] == result.terms[j].expon[1]) {
+                // 계수를 더하고 한 쪽의 항을 삭제
+                result.terms[i].coef += result.terms[j].coef;
+                // 삭제된 항을 나중에 삭제하기 위해 coef를 0으로 설정
+                result.terms[j].coef = 0;
+            }
+        }
+    }
+
+    // 삭제된 항들을 제거하고 결과 반환
+    int newIndex = 0;
+    for (int i = 0; i < result.num_terms; ++i) {
+        if (result.terms[i].coef != 0) {
+            result.terms[newIndex] = result.terms[i];
+            newIndex++;
+        }
+    }
+    result.num_terms = newIndex;
+
+    return result;
+}
+
+
+int main() {
     struct Polynomial A;
     struct Polynomial B;
 
@@ -168,11 +268,17 @@ int main() {
     struct Polynomial yx2xyresult = yx2xy(result);
     printf("== 다항식 yx -> xy로 정리 결과 == \n");
     printEach_polynomial(yx2xyresult);
-    
-    // 다항식 내 계산
-    
-    
-    
-    
+
+    // 다항식 내림차순 x, xy, y순서 && 내림차순
+    qsort(yx2xyresult.terms, yx2xyresult.num_terms, sizeof(struct Term), compare);
+    printf("== 다항식 내림차순 정렬 결과 == \n");
+    printEach_polynomial(yx2xyresult);
+
+    // 다항식 정리
+    struct Polynomial simplifiedResult = simplify(yx2xyresult);
+    printf("== 다항식 변수끼리의 차수가 같은 항 계산 결과 == \n");
+    printEach_polynomial(simplifiedResult);
+
+
     return 0;
 }
