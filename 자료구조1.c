@@ -26,13 +26,17 @@ void printEach_polynomial(struct Polynomial poly) {
     for (i = 0; i < poly.num_terms; ++i) {
         if (poly.terms[i].coef != 0) { // 항이 존재하는 경우에만 출력
             if (poly.terms[i].coef > 0 && term_printed) { // 첫번째 항이 아니고 +부호이면 추가
-                printf(" +");
+                printf(" + ");
             }
-
             // 변수가 존재하는 경우에만 출력
-            if (poly.terms[i].variable[0] != 0) {
-                printf(" %.2f", poly.terms[i].coef);
-
+            if (poly.terms[i].variable[0] != 0 && poly.terms[i].variable[0] > 0) {
+                if (poly.terms[i].coef > 0) {
+                    printf("%.2f", poly.terms[i].coef);
+                }
+                else if (poly.terms[i].coef < 0) {
+                    printf(" - ");
+                    printf("%.2f", -poly.terms[i].coef);
+                }
                 // 변수 출력
                 for (int j = 0; j < MAX_VARIABLES; ++j) {
                     if (poly.terms[i].variable[j] != 0) {
@@ -56,7 +60,6 @@ void printEach_polynomial(struct Polynomial poly) {
             term_printed = 1; // 항이 출력되었음을 표시
         }
     }
-
     // 마지막 항 출력
     if (!term_printed) {
         ; // 모든 항이 없는 경우
@@ -227,7 +230,6 @@ int main() {
     struct Polynomial A;
     struct Polynomial B;
 
-    printf(" == A == \n");
     A.num_terms = 3;
     A.terms[0].coef = 3;
     A.terms[0].variable[0] = 'y';
@@ -241,9 +243,7 @@ int main() {
     A.terms[2].variable[0] = 0;
     A.terms[2].expon[0] = 0;
 
-    printEach_polynomial(A);
 
-    printf("== B == \n");
     B.num_terms = 3;
     B.terms[0].coef = 5;
     B.terms[0].variable[0] = 'x';
@@ -257,28 +257,18 @@ int main() {
     B.terms[2].variable[0] = 0;
     B.terms[2].expon[0] = 0;
 
-    printEach_polynomial(B);
-
     // 곱하기
     struct Polynomial result = mat(A, B);
-    printf("== 다항식 곱셈 결과 == \n");
-    printEach_polynomial(result);
 
     // yx -> xy
     struct Polynomial yx2xyresult = yx2xy(result);
-    printf("== 다항식 yx -> xy로 정리 결과 == \n");
-    printEach_polynomial(yx2xyresult);
 
     // 다항식 내림차순 x, xy, y순서 && 내림차순
     qsort(yx2xyresult.terms, yx2xyresult.num_terms, sizeof(struct Term), compare);
-    printf("== 다항식 내림차순 정렬 결과 == \n");
-    printEach_polynomial(yx2xyresult);
 
     // 다항식 정리
     struct Polynomial simplifiedResult = simplify(yx2xyresult);
-    printf("== 다항식 변수끼리의 차수가 같은 항 계산 결과 == \n");
     printEach_polynomial(simplifiedResult);
-
 
     return 0;
 }
