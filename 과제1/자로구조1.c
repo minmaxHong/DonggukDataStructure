@@ -5,30 +5,30 @@
 #define MAX_TERMS 101
 #define MAX_VARIABLES 2
 
-// ´ÙÇ×½Ä °¢ Ç× Ç¥Çö
+// ï¿½ï¿½ï¿½×½ï¿½ ï¿½ï¿½ ï¿½ï¿½ Ç¥ï¿½ï¿½
 struct Term {
-    float coef; // Ç×ÀÇ °è¼ö
-    char variable[MAX_VARIABLES]; // Ç×ÀÇ º¯¼ö
-    int expon[MAX_VARIABLES]; // Ç×ÀÇ Áö¼ö
+    float coef; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+    char variable[MAX_VARIABLES]; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    int expon[MAX_VARIABLES]; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 };
 
-// ´ÙÇ×½Ä Ç¥Çö
+// ï¿½ï¿½ï¿½×½ï¿½ Ç¥ï¿½ï¿½
 struct Polynomial {
-    struct Term terms[MAX_TERMS]; // Ç× Ç¥Çö
-    int num_terms; // Ç×ÀÇ °³¼ö
+    struct Term terms[MAX_TERMS]; // ï¿½ï¿½ Ç¥ï¿½ï¿½
+    int num_terms; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 };
 
-// ´ÙÇ×½Ä Á¤º¸ º¸±â
+// ï¿½ï¿½ï¿½×½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 void printEach_polynomial(struct Polynomial poly) {
     int i;
-    int term_printed = 0; // ÀÌ¹Ì Ç×ÀÌ Ãâ·ÂµÇ¾ú´ÂÁö ¿©ºÎ¸¦ ³ªÅ¸³»´Â ÇÃ·¡±×
+    int term_printed = 0; // ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ÂµÇ¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î¸ï¿½ ï¿½ï¿½Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½ï¿½
 
     for (i = 0; i < poly.num_terms; ++i) {
-        if (poly.terms[i].coef != 0) { // Ç×ÀÌ Á¸ÀçÇÏ´Â °æ¿ì¿¡¸¸ Ãâ·Â
-            if (poly.terms[i].coef > 0 && term_printed) { // Ã¹¹øÂ° Ç×ÀÌ ¾Æ´Ï°í +ºÎÈ£ÀÌ¸é Ãß°¡
+        if (poly.terms[i].coef != 0) { // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ì¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½
+            if (poly.terms[i].coef > 0 && term_printed) { // Ã¹ï¿½ï¿½Â° ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´Ï°ï¿½ +ï¿½ï¿½È£ï¿½Ì¸ï¿½ ï¿½ß°ï¿½
                 printf(" + ");
             }
-            // º¯¼ö°¡ Á¸ÀçÇÏ´Â °æ¿ì¿¡¸¸ Ãâ·Â
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ì¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½
             if (poly.terms[i].variable[0] != 0 && poly.terms[i].variable[0] > 0) {
                 if (poly.terms[i].coef > 0) {
                     printf("%.2f", poly.terms[i].coef);
@@ -37,12 +37,12 @@ void printEach_polynomial(struct Polynomial poly) {
                     printf(" - ");
                     printf("%.2f", -poly.terms[i].coef);
                 }
-                // º¯¼ö Ãâ·Â
+                // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
                 for (int j = 0; j < MAX_VARIABLES; ++j) {
                     if (poly.terms[i].variable[j] != 0) {
                         printf("%c", poly.terms[i].variable[j]);
 
-                        // Áö¼ö°¡ 1º¸´Ù Å« °æ¿ì¿¡¸¸ Ãâ·Â
+                        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1ï¿½ï¿½ï¿½ï¿½ Å« ï¿½ï¿½ì¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½
                         if (poly.terms[i].expon[j] > 1) {
                             printf("^%d", poly.terms[i].expon[j]);
                         }
@@ -50,40 +50,40 @@ void printEach_polynomial(struct Polynomial poly) {
                 }
             }
             else {
-                // º¯¼ö°¡ ¾ø´Â °æ¿ì
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
                 printf(" %.2f", poly.terms[i].coef);
 
                 if (poly.terms[i].variable[1] != 0) {
                     printf("%c^%d", poly.terms[i].variable[1], poly.terms[i].expon[1]);
                 }
             }
-            term_printed = 1; // Ç×ÀÌ Ãâ·ÂµÇ¾úÀ½À» Ç¥½Ã
+            term_printed = 1; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ÂµÇ¾ï¿½ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½
         }
     }
-    // ¸¶Áö¸· Ç× Ãâ·Â
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½
     if (!term_printed) {
-        ; // ¸ðµç Ç×ÀÌ ¾ø´Â °æ¿ì
+        ; // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
     }
     printf("\n");
 }
 
-// ´ÙÇ×½Ä °ö¼À
+// ï¿½ï¿½ï¿½×½ï¿½ ï¿½ï¿½ï¿½ï¿½
 struct Polynomial mat(struct Polynomial A, struct Polynomial B) {
     struct Polynomial result;
     result.num_terms = 0;
 
     for (int i = 0; i < A.num_terms; ++i) {
         for (int j = 0; j < B.num_terms; ++j) {
-            // º¯¼ö°¡ °°À» ¶§
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
             if (A.terms[i].variable[0] == B.terms[j].variable[0]) {
                 result.terms[result.num_terms].coef = A.terms[i].coef * B.terms[j].coef;
                 result.terms[result.num_terms].variable[0] = A.terms[i].variable[0];
                 result.terms[result.num_terms].expon[0] = A.terms[i].expon[0] + B.terms[j].expon[0];
-                result.terms[result.num_terms].variable[1] = 0; // º¯¼ö°¡ ÇÏ³ªÀÏ °æ¿ì, µÎ ¹øÂ° º¯¼ö´Â 0À¸·Î ¼³Á¤
-                result.terms[result.num_terms].expon[1] = 0; // º¯¼ö°¡ ÇÏ³ªÀÏ °æ¿ì, µÎ ¹øÂ° Áö¼ö´Â 0À¸·Î ¼³Á¤
+                result.terms[result.num_terms].variable[1] = 0; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½, ï¿½ï¿½ ï¿½ï¿½Â° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 0ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+                result.terms[result.num_terms].expon[1] = 0; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½, ï¿½ï¿½ ï¿½ï¿½Â° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 0ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 result.num_terms++;
             }
-            // º¯¼ö°¡ ´Ù¸¦ ¶§
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½
             else {
                 result.terms[result.num_terms].coef = A.terms[i].coef * B.terms[j].coef;
                 result.terms[result.num_terms].variable[0] = A.terms[i].variable[0];
@@ -97,9 +97,9 @@ struct Polynomial mat(struct Polynomial A, struct Polynomial B) {
     return result;
 }
 
-// yx -> xy·Î µ¹¸®±â
+// yx -> xyï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 struct Polynomial yx2xy(struct Polynomial A) {
-    // ÀÏ´Ü yxÀÎÁö ¾Ë¾Æº¸±â
+    // ï¿½Ï´ï¿½ yxï¿½ï¿½ï¿½ï¿½ ï¿½Ë¾Æºï¿½ï¿½ï¿½
     int exist_variable_cnt = 0;
     for (int i = 0; i < A.num_terms; ++i) {
         if (A.terms[i].variable[0] >= 'a' && A.terms[i].variable[0] <= 'z') {
@@ -108,8 +108,8 @@ struct Polynomial yx2xy(struct Polynomial A) {
         if (A.terms[i].variable[1] >= 'a' && A.terms[i].variable[1] <= 'z') {
             exist_variable_cnt++;
         }
-        // ¿©±â¼­ ÀÌÁ¦ variable[0] = 'x'°¡ µé¾î°¡¸é ¹«È¿
-        // variable[0] = 'y'°¡ µé¾î°¡¸é ¹Ù²ãÁà¾ßÇÔ
+        // ï¿½ï¿½ï¿½â¼­ ï¿½ï¿½ï¿½ï¿½ variable[0] = 'x'ï¿½ï¿½ ï¿½ï¿½î°¡ï¿½ï¿½ ï¿½ï¿½È¿
+        // variable[0] = 'y'ï¿½ï¿½ ï¿½ï¿½î°¡ï¿½ï¿½ ï¿½Ù²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         if (exist_variable_cnt == 2) {
             if (A.terms[i].variable[0] == 'y') {
                 char temp = A.terms[i].variable[0];
@@ -124,8 +124,8 @@ struct Polynomial yx2xy(struct Polynomial A) {
         exist_variable_cnt = 0;
     }
 
-    // variable[0]ÀÌ ºñ¾îÀÖ°í variable[1]ÀÌ ÀÖ´Ù¸é variable[0]°ª¿¡ variable[1]°ªÀ» ¸Å¿öÁÖ±â ex) "\0""x"
-    // exponµµ ¸¶Âù°¡Áö
+    // variable[0]ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ö°ï¿½ variable[1]ï¿½ï¿½ ï¿½Ö´Ù¸ï¿½ variable[0]ï¿½ï¿½ï¿½ï¿½ variable[1]ï¿½ï¿½ï¿½ï¿½ ï¿½Å¿ï¿½ï¿½Ö±ï¿½ ex) "\0""x"
+    // exponï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     char temp;
     int temp2;
     for (int i = 0; i < A.num_terms; ++i) {
@@ -146,16 +146,16 @@ int compare(const void* a, const void* b) {
     const struct Term* term1 = (const struct Term*)a;
     const struct Term* term2 = (const struct Term*)b;
 
-    // º¯¼ö°¡ 'x'ÀÎ Ç×ÀÌ ¸ÕÀú ³ª¿Àµµ·Ï Á¤·Ä
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 'x'ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     if (term1->variable[0] == 'x' && term2->variable[0] == 'x') {
-    // xÀÇ Â÷¼ö°¡ °°À» ¶§
+    // xï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
     if (term1->expon[0] == term2->expon[0]) {
-        // xy°¡ ÀÖ´Â °æ¿ì
+        // xyï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½
         if (term1->variable[1] == 'y' && term2->variable[1] != 'y') {
-            return -1; // xy°¡ xº¸´Ù ¿ì¼±¼øÀ§¸¦ °¡Á®¾ß ÇÔ
+            return -1; // xyï¿½ï¿½ xï¿½ï¿½ï¿½ï¿½ ï¿½ì¼±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
         }
         else if (term1->variable[1] != 'y' && term2->variable[1] == 'y') {
-            return 1; // x°¡ xyº¸´Ù ¿ì¼±¼øÀ§¸¦ °¡Á®¾ß ÇÔ
+            return 1; // xï¿½ï¿½ xyï¿½ï¿½ï¿½ï¿½ ï¿½ì¼±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
         }
     }
 }
@@ -164,7 +164,7 @@ int compare(const void* a, const void* b) {
         return 1;
     }
 
-    // º¯¼ö°¡ 'y'ÀÎ Ç×ÀÌ ¸ÕÀú ³ª¿Àµµ·Ï Á¤·Ä
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 'y'ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     if (term1->variable[0] == 'x' && term2->variable[0] != 'x') {
         return -1;
     }
@@ -172,9 +172,9 @@ int compare(const void* a, const void* b) {
         return 1;
     }
 
-    // 'x' ¶Ç´Â 'y'°¡ °°Àº °æ¿ì
+    // 'x' ï¿½Ç´ï¿½ 'y'ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
     if (term1->variable[0] == term2->variable[0]) {
-        // xy°¡ ¸ÕÀú ³ª¿Àµµ·Ï Á¤·Ä
+        // xyï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (term1->variable[1] == 'y' && term2->variable[1] == '\0') {
             return 1;
         }
@@ -182,12 +182,12 @@ int compare(const void* a, const void* b) {
             return -1;
         }
 
-        // xÀÇ Â÷¼ö°¡ ³ôÀº °ÍÀÌ ¸ÕÀú ³ª¿Àµµ·Ï Á¤·Ä
+        // xï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (term1->expon[0] != term2->expon[0]) {
             return term2->expon[0] - term1->expon[0];
         }
 
-        // yÀÇ Â÷¼ö°¡ ³ôÀº °ÍÀÌ ¸ÕÀú ³ª¿Àµµ·Ï Á¤·Ä
+        // yï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (term1->variable[1] == 'y' && term2->variable[1] == 'y') {
             return term2->expon[1] - term1->expon[1];
         }
@@ -195,24 +195,24 @@ int compare(const void* a, const void* b) {
 
     return 0;
 }
-// º¯¼ö³¢¸®ÀÇ Â÷¼ö°¡ °°Àº Ç×À» ¼­·Î °è»êÇÏ¿© °á°ú¸¦ ¾ò´Â ÇÔ¼ö
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
 struct Polynomial simplify(struct Polynomial result) {
     for (int i = 0; i < result.num_terms; ++i) {
         for (int j = i + 1; j < result.num_terms; ++j) {
-            // º¯¼ö¿Í Áö¼ö°¡ °°Àº Ç×À» Ã£À½
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½
             if (result.terms[i].variable[0] == result.terms[j].variable[0] &&
                 result.terms[i].variable[1] == result.terms[j].variable[1] &&
                 result.terms[i].expon[0] == result.terms[j].expon[0] &&
                 result.terms[i].expon[1] == result.terms[j].expon[1]) {
-                // °è¼ö¸¦ ´õÇÏ°í ÇÑ ÂÊÀÇ Ç×À» »èÁ¦
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 result.terms[i].coef += result.terms[j].coef;
-                // »èÁ¦µÈ Ç×À» ³ªÁß¿¡ »èÁ¦ÇÏ±â À§ÇØ coef¸¦ 0À¸·Î ¼³Á¤
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ß¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ coefï¿½ï¿½ 0ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 result.terms[j].coef = 0;
             }
         }
     }
 
-    // »èÁ¦µÈ Ç×µéÀ» Á¦°ÅÇÏ°í °á°ú ¹ÝÈ¯
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×µï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
     int newIndex = 0;
     for (int i = 0; i < result.num_terms; ++i) {
         if (result.terms[i].coef != 0) {
@@ -257,16 +257,16 @@ int main() {
     B.terms[2].variable[0] = 0;
     B.terms[2].expon[0] = 0;
 
-    // °öÇÏ±â
+    // ï¿½ï¿½ï¿½Ï±ï¿½
     struct Polynomial result = mat(A, B);
 
     // yx -> xy
     struct Polynomial yx2xyresult = yx2xy(result);
 
-    // ´ÙÇ×½Ä ³»¸²Â÷¼ø x, xy, y¼ø¼­ && ³»¸²Â÷¼ø
+    // ï¿½ï¿½ï¿½×½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ x, xy, yï¿½ï¿½ï¿½ï¿½ && ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     qsort(yx2xyresult.terms, yx2xyresult.num_terms, sizeof(struct Term), compare);
 
-    // ´ÙÇ×½Ä Á¤¸®
+    // ï¿½ï¿½ï¿½×½ï¿½ ï¿½ï¿½ï¿½ï¿½
     struct Polynomial simplifiedResult = simplify(yx2xyresult);
     printEach_polynomial(simplifiedResult);
 
